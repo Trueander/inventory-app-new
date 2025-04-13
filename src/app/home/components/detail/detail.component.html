@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="left-content d-flex gap-15 flex-column">
+    <h3 class="mb-0 text-center">TOP LABEL</h3>
+    <p-card>
+      <p>Nuevo código 1</p>
+      <p>Nuevo código 2</p>
+    </p-card>
+    <div class="inputs d-flex justify-content-center gap-5">
+      <div class="d-flex flex-column gap-5">
+        <label for="rows">ROWS</label>
+        <p-inputNumber [formControl]="rowFormControl" id="rows"/>
+      </div>
+      <div class="d-flex flex-column gap-5">
+        <label for="columns">COLUMNS</label>
+        <p-inputNumber [formControl]="colFormControl" id="columns"/>
+      </div>
+      <div class="d-flex flex-column gap-5">
+        <label for="total">TOTAL</label>
+        <input type="text" pInputText readonly id="total" [value]="colFormControl.value * rowFormControl.value" />
+      </div>
+    </div>
+    <div class="btn-actions d-flex gap-5 justify-content-center">
+      <button pButton class="p-button-contrast" label="TEST" (click)="start()"></button>
+      <button pButton class="p-button-contrast" label="START" (click)="start()"></button>
+    </div>
+    <p-card>
+      <div class="d-flex flex-column gap-5">
+        <label>Part Number</label>
+        <input type="text" pInputText [value]="12345" readonly/>
+      </div>
+      <div class="d-flex flex-column gap-5">
+        <label>Quantity</label>
+        <input type="text" pInputText [value]="'CPU'" readonly/>
+      </div>
+      <div class="d-flex flex-column gap-5">
+        <label>Quantity expected</label>
+        <input type="text" pInputText [value]="5000" readonly/>
+      </div>
+    </p-card>
+    <div class="d-flex gap-10 flex-column">
+      <span class="text-center">Do you have more?</span>
+      <div class="btn-yes-no d-flex gap-5 justify-content-center">
+        <button pButton class="p-button-contrast" label="YES"></button>
+        <button pButton class="p-button-contrast" label="NO"></button>
+      </div>
+    </div>
+  </div>
+  <div class="right-content">
+    <div class="model">
+      <div class="d-flex gap-10 align-items-center">
+        <label>Model</label>
+        <input type="text" pInputText/>
+      </div>
+    </div>
+    <div class="serial-container">
+
+      <p-card>
+        <h3 class="mt-0 text-center">SERIALS</h3>
+        <div class="matrix" [class.justify-content-center]="processedColumns < 3" [ngStyle]="{
+       'grid-template-columns': gridTemplateColumns,
+       'grid-template-rows': gridTemplateRows
+     }">
+          <input type="text" pInputText [value]="serial" *ngFor="let serial of serials"/>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

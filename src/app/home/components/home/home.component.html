@@ -1,0 +1,30 @@
+<div class="container">
+  <h1 class="mt-0 text-center title">Select Commodity Type To Scan</h1>
+  <div class="card-container">
+    <div class="card" (click)="showDialog(card.categoryType)" [style.background]="card.backgroundColor" *ngFor="let card of cards">
+      <i class="fa-solid" [class]="card.icon"></i>
+      <h1 class="mb-0">{{card.title}}</h1>
+    </div>
+  </div>
+  <div class="manual-scanning">
+    <button pButton icon="fa-solid fa-gun" label="Manual Scanning" class="p-button-success">
+    </button>
+  </div>
+  <div class="footer">
+    <button pButton label="Request" class="p-button-secondary ">
+    </button>
+    <div class="language">
+      <h2>Language:</h2>
+      <button pButton label="US" class="p-button-secondary ">
+      </button>
+      <button pButton label="EN" class="p-button-secondary ">
+      </button>
+    </div>
+  </div>
+</div>
+
+<p-dialog [modal]="true" [(visible)]="visible">
+  <ng-template pTemplate="headless">
+    <app-form [categoryType]="categoryType" (close)="closeDialog()"></app-form>
+  </ng-template>
+</p-dialog>

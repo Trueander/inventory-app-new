@@ -1,0 +1,30 @@
+<div>
+  <div class="d-flex flex-column gap-5 pb-10">
+    <h3 class="mt-0 mb-0">Generation:</h3>
+    <div class="container-type pb-5">
+      @for (item of getGenerations(); track $index) {
+        <div class="container-type-item"
+             [class.selected]="generationFC.value === item"
+             (click)="selectGeneration(item)">
+          <span class="text-item">{{item}}</span>
+        </div>
+      }
+    </div>
+  </div>
+  <div class="d-flex flex-column gap-5 pb-15 pr-15">
+    <h3 class="mt-0">Capacity:</h3>
+    <div class="d-flex">
+      <ngx-slider [formControl]="sliderFormControl" [options]="options"></ngx-slider>
+    </div>
+  </div>
+  <div class="d-flex flex-column gap-5 pb-10">
+    <h3 class="mt-0 mb-0">Capture serial number:</h3>
+    <div class="d-flex justify-content-center">
+      <p-selectButton
+        [options]="stateOptions"
+        [formControl]="captureSerialNumberFC"
+        optionLabel="label"
+        optionValue="value" />
+    </div>
+  </div>
+</div>

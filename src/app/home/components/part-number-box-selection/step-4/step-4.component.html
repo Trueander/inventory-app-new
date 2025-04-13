@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="selected-items">
+    <div class="container-type-item">
+      <div>
+        <i class="fa-solid fa-database fa-2xl" ></i>
+      </div>
+      <span>{{form.get('type')?.value}}</span>
+    </div>
+    <div class="container-type-item">
+      <div>
+        <i class="fa-solid fa-database fa-2xl" ></i>
+      </div>
+      <span>{{form.get('generation')?.value}}</span>
+    </div>
+    <div class="container-type-item">
+      <div>
+        <i class="fa-solid fa-database fa-2xl" ></i>
+      </div>
+      <span>{{form.get('capacity')?.value}}GB</span>
+    </div>
+  </div>
+
+  <input type="text" pInputText placeholder="Search by part number" [formControl]="searchFC"/>
+
+  <div class="container-part-numbers">
+    @for (item of filterPartNumbers; track item.id) {
+      <div class="part-number-item" (click)="selectPartNumber(item)" [class.selected]="form.get('partNumber')?.value === item.partnumber">
+        <div class="left-side">
+          <label><strong>PN</strong>: {{item.partnumber}}</label>
+          <img style="width: 180px;" src="{{item.image}}" alt="partnumber">
+          <span><strong>Flipper Used</strong>: {{item.flipper}}</span>
+        </div>
+        <div class="content">
+          <span><strong>Generation</strong>: {{item.generation}}</span>
+          <span><strong>Size</strong>: {{item.size}}</span>
+          <span><strong>Speed</strong>: {{item.speed}}</span>
+          <span><strong>Type</strong>: {{item.type}}</span>
+        </div>
+      </div>
+    }
+  </div>
+  <div class="d-flex flex-column gap-5 pt-10">
+    <label for="flipper">Use flippers #:</label>
+    <input type="text" style="text-align:center;" pInputText [(ngModel)]="flipperValue" id="flipper" readonly/>
+  </div>
+</div>

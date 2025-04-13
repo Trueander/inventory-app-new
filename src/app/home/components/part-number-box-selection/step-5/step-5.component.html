@@ -1,0 +1,17 @@
+<div class="d-flex flex-column gap-5 pb-10">
+  <h3 class="mt-0 mb-0">Label selection:</h3>
+  <div class="container-type">
+    @for (item of getLabels(); track $index) {
+      <div>
+        <p class="mt-0 mb-5">{{item}}</p>
+        <div class="container-type-item tray-item"
+             [class.selected]="labelFC.value === item"
+             (click)="selectLabel(item)">
+          <div>
+            <i class="fa-solid fa-database fa-2xl" ></i>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,38 @@
+.form-container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  //overflow-y: auto;
+  //max-height: 600px;
+
+  .form-inputs {
+    display: flex;
+    gap: 10px;
+  }
+
+  .container-short-input {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 60px 60px 85px 140px 140px 100px auto;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .formArrayContainer {
+    //overflow-x: hidden;
+    //overflow-y: auto;
+    //max-height: 200px;
+  }
+}
+
+
+::ng-deep .p-dialog {
+  border-radius: 8px; /* Adjust as per your design */
+  padding-top: 16px; /* Adjust the top padding */
+}
+
+::ng-deep .p-dialog .p-dialog-content {
+  padding-top: 1.5rem; /* Remove the padding from the content area */
+  padding-bottom: 1.5rem; /* Remove the padding from the content area */
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}

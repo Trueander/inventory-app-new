@@ -1,0 +1,188 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+@layer reset, primeng;
+
+/* Reset CSS */
+@layer reset {
+  button {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+html, body {
+  min-height: 100vh;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 14px;
+  overflow: auto;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.pt-5 {
+  padding-top: 5px;
+}
+
+.pb-5 {
+  padding-bottom: 5px;
+}
+
+.pt-10 {
+  padding-top: 10px;
+}
+
+.pb-10 {
+  padding-bottom: 10px;
+}
+
+.pb-15 {
+  padding-bottom: 15px;
+}
+
+.pr-15 {
+  padding-right: 15px;
+}
+
+.pt-15 {
+  padding-top: 15px;
+}
+
+.pt-20 {
+  padding-top: 20px;
+}
+
+.pt-25 {
+  padding-top: 25px;
+}
+
+.pt-30 {
+  padding-top: 30px;
+}
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.gap-5 {
+  gap: 5px;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.gap-15 {
+  gap: 15px;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-end {
+  align-items: flex-end;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.ng-touched.ng-invalid {
+  border-color: #f87171;
+}
+
+.text-danger {
+  color: #f43434;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+
+
+.container-type {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 400px;
+
+  .text-item {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .tray-item {
+    height: 180px;
+  }
+
+  //.container-type-item {
+  //  padding: 16px 4px;
+  //  border-radius: 4px;
+  //  cursor: pointer;
+  //  border: 1px solid #d9d9d9;
+  //  display: flex;
+  //  gap: 10px;
+  //  justify-content: center;
+  //  flex-direction: column;
+  //  text-align: center;
+  //
+  //  &:hover {
+  //    background-color: rgba(223, 228, 255, 0.34);
+  //  }
+  //}
+
+  .container-type-item.selected, .container-type-item.selected:hover {
+    background-color: var(--primary-color);
+    color: white;
+  }
+
+}
+
+.container-type-item {
+  padding: 16px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #d9d9d9;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+
+  &:hover {
+    background-color: rgba(223, 228, 255, 0.34);
+  }
+}

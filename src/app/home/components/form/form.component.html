@@ -1,0 +1,100 @@
+<div class="form-container">
+  <h1 class="text-center mt-0 mb-30">{{categoryType}}</h1>
+  <form class="d-flex flex-column gap-5" [formGroup]="form" (ngSubmit)="continue()">
+    <div class="form-inputs">
+      <div class="d-flex flex-column gap-5">
+        <label for="po">PO</label>
+        <input type="text" pInputText formControlName="po" id="po"/>
+        <span class="text-danger" *ngIf="form.get('po')?.invalid &&
+          (form.get('po')?.dirty || form.get('po')?.touched)">
+          PO is required
+        </span>
+      </div>
+      <div class="d-flex flex-column gap-5">
+        <label>Unique / Pallet ID</label>
+        <div formArrayName="palletIds" class="d-flex flex-column gap-5 formArrayContainer">
+          <div class="d-flex gap-5" *ngFor="let palletId of palletIdsFormArray.controls; let i = index">
+            <input type="text" pInputText [formControlName]="i" />
+            <!-- Delete button if more than one item -->
+            @if (palletIdsFormArray.length > 1) {
+              <p-button icon="pi pi-trash"
+                        severity="danger"
+                        [rounded]="true"
+                        (click)="removePalletID(i)">
+              </p-button>
+            }
+
+            <!-- Add button only for the last item -->
+            @if (i === palletIdsFormArray.length - 1) {
+              <p-button icon="pi pi-plus"
+                        severity="primary"
+                        [rounded]="true"
+                        (click)="addNewPalletID()">
+              </p-button>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-column gap-5">
+        <label style="color:transparent;">.</label>
+        <p-button icon="pi pi-plus" severity="primary" [label]="partNumberModalResponse ? 'Modify part number':'Add part number'" (click)="showPartNumberBox()"/>
+      </div>
+    </div>
+
+    <div formArrayName="items">
+      <div class="d-flex gap-5 container-short-input" [formGroupName]="i" *ngFor="let item of itemsFormArray.controls; let i = index">
+        <div class="d-flex flex-column gap-5 short-input">
+          <label for="po" *ngIf="i === 0">Condition</label>
+          <input type="text" pInputText formControlName="condition" id="condition" readonly/>
+        </div>
+        <div class="d-flex flex-column gap-5 short-input">
+          <label for="po" *ngIf="i === 0">Type</label>
+          <input type="text" pInputText formControlName="type" id="type" readonly/>
+        </div>
+        <div class="d-flex flex-column gap-5 short-input">
+          <label for="manufacturer" *ngIf="i === 0">Manufacturer</label>
+          <input type="text" pInputText formControlName="manufacturer" id="manufacturer" readonly/>
+        </div>
+        <div class="d-flex flex-column gap-5 short-input">
+          <label for="generation" *ngIf="i === 0">Gen</label>
+          <input type="text" pInputText formControlName="generation" id="generation" readonly/>
+        </div>
+        <div class="d-flex flex-column gap-5 short-input">
+          <label for="capacity" *ngIf="i === 0">Cap</label>
+          <input type="text" pInputText formControlName="capacity" id="capacity" readonly/>
+        </div>
+        <div class="d-flex flex-column gap-5 short-input">
+          <label *ngIf="i === 0">Capture SN</label>
+          <div class="text-cente pt-5 text-center" >
+            <i class="pi pi-check-circle" style="color: green;font-size: 25px" *ngIf="getTextCaptureSerialNumber(i); else no"></i>
+            <ng-template #no>
+              <i class="pi pi-times-circle" style="color: red; font-size: 25px"></i>
+            </ng-template>
+
+          </div>
+        </div>
+        <div class="d-flex flex-column gap-5">
+          <label for="po" *ngIf="i === 0">Part number</label>
+          <input type="text" pInputText formControlName="partNumber" id="partNumber" readonly/>
+        </div>
+        <div class="d-flex flex-column gap-5 short-input">
+          <label for="po" *ngIf="i === 0">Customer PN</label>
+          <input type="text" pInputText formControlName="customerPN" id="customerPN" readonly/>
+        </div>
+        <div class="d-flex flex-column gap-5 short-input">
+          <label for="po" *ngIf="i === 0">Qty. scanned</label>
+          <input type="text" pInputText formControlName="qtyScanned" id="qtyScanned" readonly/>
+        </div>
+        <div class="d-flex gap-5 align-items-end">
+          <p-button icon="pi pi-pencil"  severity="secondary" [rounded]="true" (click)="showPartNumberBox(i)"/>
+          <p-button icon="pi pi-trash" severity="danger" [rounded]="true" (click)="removeItemPartNumber(i)"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center pt-20 gap-5">
+      <p-button label="Cancel" severity="secondary" (click)="closeDialog()"/>
+      <p-button label="Continue" icon="pi pi-arrow-circle-right" severity="primary" type="submit"/>
+    </div>
+  </form>
+</div>

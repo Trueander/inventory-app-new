@@ -1,0 +1,21 @@
+@if (formGroup) {
+  <div *ngIf="activeIndex === 0">
+    <app-form-step-1 [form]="formGroup"></app-form-step-1>
+  </div>
+  <div *ngIf="activeIndex === 1">
+    <app-form-step-2 [form]="formGroup"></app-form-step-2>
+  </div>
+  <div *ngIf="activeIndex === 2">
+    <app-form-step-3 [form]="formGroup"></app-form-step-3>
+  </div>
+  <div *ngIf="activeIndex === 3">
+    <app-form-step-4 [form]="formGroup"></app-form-step-4>
+  </div>
+  <div *ngIf="activeIndex === 4">
+    <app-form-step-5 [form]="formGroup"></app-form-step-5>
+  </div>
+}
+<div class="pt-10 d-flex gap-10">
+  <p-button label="Back" severity="primary" class="flex-grow-1" [styleClass]="'w-100'" (click)="previousStep()" [disabled]="activeIndex === 0"/>
+  <p-button label="Next" severity="primary" class="flex-grow-1" [styleClass]="'w-100'" (click)="nextStep()"/>
+</div>

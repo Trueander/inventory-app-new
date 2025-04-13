@@ -1,0 +1,38 @@
+.container {
+  display: grid;
+  gap: 4rem;
+  grid-template-columns: 300px 1fr;
+  padding: 20px;
+
+  .left-content {
+    .inputs ::ng-deep p-inputNumber input, .inputs input {
+      width: 75px;
+    }
+
+    .btn-actions button {
+      width: 100px;
+    }
+
+    .btn-yes-no button {
+      width: 70px;
+    }
+  }
+
+  .model {
+    margin-bottom: 12px;
+
+    input {
+      width: 200px;
+    }
+  }
+
+  .serial-container {
+    .matrix {
+      display: grid;
+      gap: 10px;
+      width: 500px;
+      margin: auto;
+      overflow: auto;
+    }
+  }
+}

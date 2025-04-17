@@ -52,7 +52,7 @@ export class PartNumberBoxSelectionComponent implements OnInit{
   //size of step views
   steps = [1,2,3,4,5];
   formGroup!: FormGroup;
-
+  invalidForm = false;
 
   constructor(private ref: DynamicDialogRef,
               public config: DynamicDialogConfig,
@@ -80,19 +80,29 @@ export class PartNumberBoxSelectionComponent implements OnInit{
       capacity: this.fb.control(null, [Validators.required]),
       captureSerialNumber: this.fb.control<boolean>(false, [Validators.required]),
       partNumber: this.fb.control(null, [Validators.required]),
-      customerPN: this.fb.control(null, [Validators.required]),
+      customerPN: this.fb.control(null),
       qtyScanned: this.fb.control(null),
       traySelection: this.fb.control(null, [Validators.required]),
-      label: this.fb.control(null, [Validators.required])
+      label: this.fb.control(null, [Validators.required]),
+      usedFlipper: this.fb.control(null, [Validators.required])
     });
   }
 
   save(): void {
-    this.ref.close(this.formGroup);
+    if(this.formGroup.valid) {
+      this.formGroup.get('customerPN')?.setValue('x1x2x3');
+      this.formGroup.get('qtyScanned')?.setValue('50');
+      this.ref.close(this.formGroup);
+    }else {
+      this.invalidForm = true;
+    }
+  }
+
+  close(): void {
+    this.ref.close();
   }
 
   nextStep() {
-    console.log(this.formGroup)
     if((this.steps.length -1) === this.activeIndex) {
       this.save();
     }

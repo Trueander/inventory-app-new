@@ -1,13 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Button, ButtonDirective} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
-import {NgIf} from "@angular/common";
+import {AsyncPipe, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {CardModule} from "primeng/card";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {CheckboxModule} from "primeng/checkbox";
 import {DialogService} from "primeng/dynamicdialog";
+import {InventoryService} from "../../../services/inventory.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-form-step-1',
@@ -21,7 +23,8 @@ import {DialogService} from "primeng/dynamicdialog";
     ButtonDirective,
     CardModule,
     SelectButtonModule,
-    CheckboxModule
+    CheckboxModule,
+    AsyncPipe
   ],
   providers: [DialogService],
   templateUrl: './step-1.component.html',
@@ -29,13 +32,12 @@ import {DialogService} from "primeng/dynamicdialog";
 })
 export class Step1Component implements OnInit {
   @Input() form!: FormGroup;
+  manufacturers$!: Observable<string[]>;
+  types$!: Observable<string[]>;
 
-  getTypes(): string[] {
-    return ['RDIMM', 'LRDIMM'];
-  }
-
-  getManufacturers(): string[] {
-    return ['Samsung', 'Hynix', 'Micron', 'Kingston'];
+  constructor(private inventoryService: InventoryService) {
+    this.manufacturers$ = this.inventoryService.getManufacturers();
+    this.types$ = this.inventoryService.getTypes();
   }
 
   getConditions(): string[] {

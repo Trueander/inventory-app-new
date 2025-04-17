@@ -1,13 +1,22 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {InputNumberModule} from "primeng/inputnumber";
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
-import {NgForOf, NgStyle} from "@angular/common";
+import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {CardModule} from "primeng/card";
 import {Button, ButtonDirective} from "primeng/button";
+import {RouterLink} from "@angular/router";
+import {PoData} from "../../models/po-data";
+import {PartNumberItem} from "../../models/part-number-item";
 import {InventoryService} from "../../services/inventory.service";
-import {delay, tap} from "rxjs";
-import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-detail',
@@ -21,88 +30,69 @@ import Swal from "sweetalert2";
     CardModule,
     Button,
     ReactiveFormsModule,
-    ButtonDirective
+    ButtonDirective,
+    RouterLink,
+    NgIf
   ],
+  providers: [],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.scss'
 })
-export class DetailComponent {
-  serials: string[] = [];
-  rowFormControl: FormControl = new FormControl(null, Validators.required);
-  colFormControl: FormControl = new FormControl(null, Validators.required);
-  processedColumns: number = 0;
-  processedRows: number = 0;
+export class DetailComponent implements OnInit{
+  form!: FormGroup;
+  title: string = 'MEMORY';
 
-  constructor(private inventoryService: InventoryService) {}
-
-  start(): void {
-    if(this.colFormControl.invalid || this.rowFormControl.invalid){
-      Swal.fire({
-        title: "Fill the gaps",
-        text: `Columns and rows are required`,
-        icon: "warning"
-      });
-
-      return;
-    }
-
-    this.inventoryService.getSerialNumbers(1)
-      .pipe(
-        tap(()=> this.loading()),
-        delay(1500),
-        tap(this.validateMatrix)
-      )
-      .subscribe();
+  constructor(private fb: FormBuilder,
+              private inventoryService: InventoryService) {
   }
 
-  private validateMatrix = (serialNumbers: string[]): void => {
-    const totalMatrix = this.rowFormControl.value * this.colFormControl.value;
-
-    if(totalMatrix < serialNumbers.length) {
-      Swal.fire({
-        title: "Verify columns and rows",
-        text: `Columns * rows(${totalMatrix}), can't be less than serial numbers(${serialNumbers.length})`,
-        icon: "warning"
-      });
-
-      return;
-    }
-
-    this.processedColumns = this.colFormControl.value;
-    this.processedRows = this.rowFormControl.value;
-
-    if(serialNumbers.length < totalMatrix){
-      for(let i= serialNumbers.length; i < totalMatrix; i++){
-        serialNumbers.push('0');
+  ngOnInit(): void {
+    this.inventoryService.data.subscribe(response => {
+      if(response) {
+        this.formInit(response);
       }
-    }
-
-    this.serials = [...serialNumbers];
+    });
   }
 
-  get gridTemplateColumns(): string {
-    return `repeat(${this.processedColumns}, 200px)`;
+  get palletIdsFormArray(): FormArray {
+    return this.form.get('palletIds') as FormArray;
   }
 
-  get gridTemplateRows(): string {
-    return `repeat(${this.processedRows}, 1fr)`;
+  get itemsFormArray(): FormArray {
+    return this.form.get('items') as FormArray;
   }
 
-  loading(): void {
-    let timerInterval: any;
-    Swal.fire({
-      title: "Loading...",
-      html: "Processing data",
-      timer: 1500,
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      allowEnterKey: false,
-      timerProgressBar: true,
-      didOpen: () => {
-        Swal.showLoading();
-        timerInterval = setInterval(() => {
-        }, 100);
-      }
-    }).then();
+  getTextCaptureSerialNumber(index: number): boolean {
+    return this.itemsFormArray.at(index).get('captureSerialNumber')?.value;
+  }
+
+  private formInit(data: PoData): void {
+    this.form = this.fb.group({
+      po: this.fb.control(data.po, [Validators.required]),
+      totalQuantity: this.fb.control(null),
+      trayQuantity: this.fb.control(null),
+      items: this.fb.array([]),
+      palletIds: this.fb.array([]),
+    });
+    data.palletIds.forEach(item => this.palletIdsFormArray.push(new FormControl(item)))
+    data.items.forEach(item => this.itemsFormArray.push(this.mapToForm(item)));
+  }
+
+  mapToForm(item: PartNumberItem): FormGroup {
+    return this.fb.group({
+      index: this.fb.control(null),
+      condition: this.fb.control(item.condition, [Validators.required]),
+      type: this.fb.control(item.type, [Validators.required]),
+      manufacturer: this.fb.control(item.manufacturer, [Validators.required]),
+      generation: this.fb.control(item.generation, [Validators.required]),
+      capacity: this.fb.control(item.capacity, [Validators.required]),
+      captureSerialNumber: this.fb.control<boolean>(item.captureSerialNumber, [Validators.required]),
+      partNumber: this.fb.control(item.partNumber, [Validators.required]),
+      customerPN: this.fb.control(item.customerPN),
+      qtyScanned: this.fb.control(item.qtyScanned),
+      traySelection: this.fb.control(item.traySelection, [Validators.required]),
+      label: this.fb.control(item.label, [Validators.required]),
+      usedFlipper: this.fb.control(item.usedFlipper, [Validators.required])
+    });
   }
 }

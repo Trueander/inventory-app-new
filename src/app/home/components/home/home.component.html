@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="mt-0 text-center title">Select Commodity Type To Scan</h1>
   <div class="card-container">
-    <div class="card" (click)="showDialog(card.categoryType)" [style.background]="card.backgroundColor" *ngFor="let card of cards">
+    <div class="card" (click)="showDialog(card.description)" [style.background]="card.backgroundColor" *ngFor="let card of cards">
       <i class="fa-solid" [class]="card.icon"></i>
       <h1 class="mb-0">{{card.title}}</h1>
     </div>
@@ -25,6 +25,6 @@
 
 <p-dialog [modal]="true" [(visible)]="visible">
   <ng-template pTemplate="headless">
-    <app-form [categoryType]="categoryType" (close)="closeDialog()"></app-form>
+    <app-form [category]="categoryType" (close)="closeDialog()"></app-form>
   </ng-template>
 </p-dialog>

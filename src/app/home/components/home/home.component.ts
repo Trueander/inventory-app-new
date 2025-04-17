@@ -20,20 +20,20 @@ import {FormComponent} from "../form/form.component";
 })
 export class HomeComponent {
   cards: CardItem[];
-  categoryType: CategoryType = CategoryType.CPU;
+  categoryType: string = '';
   visible: boolean = false;
 
-  showDialog(categoryType: CategoryType): void {
+  showDialog(category: string): void {
     this.visible = true;
-    this.categoryType = categoryType;
+    this.categoryType = category;
   }
 
   constructor() {
     this.cards = [
-      new CardItem('CPU','fa-microchip','#34c759', CategoryType.CPU),
-      new CardItem('MEM','fa-memory','#00c7be', CategoryType.RAM),
-      new CardItem('HDD','fa-hard-drive','#ff9500', CategoryType.HDD),
-      new CardItem('Others','fa-barcode','#ff2d55', CategoryType.OTHERS)
+      new CardItem('CPU', 'CPU','fa-microchip','#34c759', CategoryType.CPU),
+      new CardItem('MEM','MEMORY','fa-memory','#00c7be', CategoryType.RAM),
+      new CardItem('HDD','HDD','fa-hard-drive','#ff9500', CategoryType.HDD),
+      new CardItem('Others','Others','fa-barcode','#ff2d55', CategoryType.OTHERS)
     ];
   }
 

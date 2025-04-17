@@ -1,67 +1,117 @@
 <div class="container">
-  <div class="left-content d-flex gap-15 flex-column">
-    <h3 class="mb-0 text-center">TOP LABEL</h3>
-    <p-card>
-      <p>Nuevo código 1</p>
-      <p>Nuevo código 2</p>
-    </p-card>
-    <div class="inputs d-flex justify-content-center gap-5">
-      <div class="d-flex flex-column gap-5">
-        <label for="rows">ROWS</label>
-        <p-inputNumber [formControl]="rowFormControl" id="rows"/>
-      </div>
-      <div class="d-flex flex-column gap-5">
-        <label for="columns">COLUMNS</label>
-        <p-inputNumber [formControl]="colFormControl" id="columns"/>
-      </div>
-      <div class="d-flex flex-column gap-5">
-        <label for="total">TOTAL</label>
-        <input type="text" pInputText readonly id="total" [value]="colFormControl.value * rowFormControl.value" />
+  <nav>
+    <div>
+      <a routerLink="/" class="home">Home</a>
+    </div>
+    <h1 style="margin: 0; text-align: center">{{title}}</h1>
+    <a></a>
+  </nav>
+  <div class="content">
+    <div class="left">
+      <div class="instructions">
+        <p-card [header]="'INSTRUCTIONS'">
+          <div class="steps">
+            <div class="step"></div>
+            <div class="step"></div>
+            <div class="step"></div>
+          </div>
+        </p-card>
       </div>
     </div>
-    <div class="btn-actions d-flex gap-5 justify-content-center">
-      <button pButton class="p-button-contrast" label="TEST" (click)="start()"></button>
-      <button pButton class="p-button-contrast" label="START" (click)="start()"></button>
-    </div>
-    <p-card>
-      <div class="d-flex flex-column gap-5">
-        <label>Part Number</label>
-        <input type="text" pInputText [value]="12345" readonly/>
-      </div>
-      <div class="d-flex flex-column gap-5">
-        <label>Quantity</label>
-        <input type="text" pInputText [value]="'CPU'" readonly/>
-      </div>
-      <div class="d-flex flex-column gap-5">
-        <label>Quantity expected</label>
-        <input type="text" pInputText [value]="5000" readonly/>
-      </div>
-    </p-card>
-    <div class="d-flex gap-10 flex-column">
-      <span class="text-center">Do you have more?</span>
-      <div class="btn-yes-no d-flex gap-5 justify-content-center">
-        <button pButton class="p-button-contrast" label="YES"></button>
-        <button pButton class="p-button-contrast" label="NO"></button>
-      </div>
-    </div>
-  </div>
-  <div class="right-content">
-    <div class="model">
-      <div class="d-flex gap-10 align-items-center">
-        <label>Model</label>
-        <input type="text" pInputText/>
-      </div>
-    </div>
-    <div class="serial-container">
+    <main>
+      <div class="d-flex flex-column gap-10" [formGroup]="form" *ngIf="form">
+        <p-card [header]="'SUMMARY'">
+          <div>
+            <div class="form-inputs">
+              <div class="d-flex flex-column gap-5">
+                <label for="po">PO</label>
+                <input type="text" pInputText formControlName="po" id="po"/>
+              </div>
+              <div class="d-flex flex-column gap-5">
+                <label>Unique / Pallet ID</label>
+                <div formArrayName="palletIds" class="d-flex flex-column gap-5 formArrayContainer">
+                  <div class="d-flex gap-5" *ngFor="let palletId of palletIdsFormArray.controls; let i = index">
+                    <input type="text" pInputText [formControlName]="i" />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-column gap-5">
+                <label style="color:transparent;">.</label>
+              </div>
+            </div>
 
-      <p-card>
-        <h3 class="mt-0 text-center">SERIALS</h3>
-        <div class="matrix" [class.justify-content-center]="processedColumns < 3" [ngStyle]="{
-       'grid-template-columns': gridTemplateColumns,
-       'grid-template-rows': gridTemplateRows
-     }">
-          <input type="text" pInputText [value]="serial" *ngFor="let serial of serials"/>
+            <div formArrayName="items" class="items">
+              <div class="item" [formGroupName]="i" *ngFor="let item of itemsFormArray.controls; let i = index">
+                <div class="d-flex flex-column gap-5 short-input">
+                  <label for="po" *ngIf="i === 0">Condition</label>
+                  <input type="text" pInputText formControlName="condition" id="condition" readonly/>
+                </div>
+                <div class="d-flex flex-column gap-5 short-input">
+                  <label for="po" *ngIf="i === 0">Type</label>
+                  <input type="text" pInputText formControlName="type" id="type" readonly/>
+                </div>
+                <div class="d-flex flex-column gap-5 short-input">
+                  <label for="manufacturer" *ngIf="i === 0">Manufacturer</label>
+                  <input type="text" pInputText formControlName="manufacturer" id="manufacturer" readonly/>
+                </div>
+                <div class="d-flex flex-column gap-5 short-input">
+                  <label for="generation" *ngIf="i === 0">Gen</label>
+                  <input type="text" pInputText formControlName="generation" id="generation" readonly/>
+                </div>
+                <div class="d-flex flex-column gap-5 short-input">
+                  <label for="capacity" *ngIf="i === 0">Cap</label>
+                  <input type="text" pInputText formControlName="capacity" id="capacity" readonly/>
+                </div>
+                <div class="d-flex flex-column gap-5 short-input">
+                  <label *ngIf="i === 0">Capture SN</label>
+                  <div class="text-cente pt-5 text-center" >
+                    <i class="pi pi-check-circle" style="color: green;font-size: 25px" *ngIf="getTextCaptureSerialNumber(i); else no"></i>
+                    <ng-template #no>
+                      <i class="pi pi-times-circle" style="color: red; font-size: 25px"></i>
+                    </ng-template>
+
+                  </div>
+                </div>
+                <div class="d-flex flex-column gap-5">
+                  <label for="po" *ngIf="i === 0">Part number</label>
+                  <input type="text" pInputText formControlName="partNumber" id="partNumber" readonly/>
+                </div>
+                <div class="d-flex flex-column gap-5 short-input">
+                  <label for="po" *ngIf="i === 0">Customer PN</label>
+                  <input type="text" pInputText formControlName="customerPN" id="customerPN" readonly/>
+                </div>
+                <div class="d-flex flex-column gap-5 short-input">
+                  <label for="po" *ngIf="i === 0">Qty. scanned</label>
+                  <input type="text" pInputText formControlName="qtyScanned" id="qtyScanned" readonly/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </p-card>
+
+        <p-card>
+          <div class="d-flex gap-10">
+            <div class="d-flex flex-column gap-5 short-input">
+              <label for="totalQuantity">Total Quantity</label>
+              <input type="text" pInputText formControlName="totalQuantity" id="totalQuantity"/>
+            </div>
+            <div class="d-flex flex-column gap-5 short-input">
+              <label for="trayQuantity">Tray Quantity</label>
+              <input type="text" pInputText formControlName="trayQuantity" id="trayQuantity"/>
+            </div>
+          </div>
+        </p-card>
+
+        <div class="d-flex gap-10">
+          <p-button label="Settings" severity="secondary"></p-button>
+          <p-button label="Start" severity="primary"></p-button>
         </div>
+      </div>
+    </main>
+    <div class="right">
+      <p-card [header]="'SERIALS'">
+        <div class="content"></div>
       </p-card>
     </div>
   </div>

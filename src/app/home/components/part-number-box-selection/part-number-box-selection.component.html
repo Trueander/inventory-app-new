@@ -1,3 +1,4 @@
+<i class="pi pi-times close" (click)="close()"></i>
 @if (formGroup) {
   <div *ngIf="activeIndex === 0">
     <app-form-step-1 [form]="formGroup"></app-form-step-1>
@@ -14,6 +15,13 @@
   <div *ngIf="activeIndex === 4">
     <app-form-step-5 [form]="formGroup"></app-form-step-5>
   </div>
+  @if (invalidForm) {
+    <div>
+      <span class="text-danger">
+        All the fields are required
+      </span>
+    </div>
+  }
 }
 <div class="pt-10 d-flex gap-10">
   <p-button label="Back" severity="primary" class="flex-grow-1" [styleClass]="'w-100'" (click)="previousStep()" [disabled]="activeIndex === 0"/>

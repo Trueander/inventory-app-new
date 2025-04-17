@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h1 class="text-center mt-0 mb-30">{{categoryType}}</h1>
+  <h1 class="text-center mt-0 mb-30">{{category}}</h1>
   <form class="d-flex flex-column gap-5" [formGroup]="form" (ngSubmit)="continue()">
     <div class="form-inputs">
       <div class="d-flex flex-column gap-5">
@@ -42,7 +42,9 @@
     </div>
 
     <div formArrayName="items">
-      <div class="d-flex gap-5 container-short-input" [formGroupName]="i" *ngFor="let item of itemsFormArray.controls; let i = index">
+      <div class="d-flex gap-5 container-short-input"
+           [formGroupName]="i"
+           *ngFor="let item of itemsFormArray.controls; let i = index">
         <div class="d-flex flex-column gap-5 short-input">
           <label for="po" *ngIf="i === 0">Condition</label>
           <input type="text" pInputText formControlName="condition" id="condition" readonly/>
@@ -86,8 +88,9 @@
           <input type="text" pInputText formControlName="qtyScanned" id="qtyScanned" readonly/>
         </div>
         <div class="d-flex gap-5 align-items-end">
-          <p-button icon="pi pi-pencil"  severity="secondary" [rounded]="true" (click)="showPartNumberBox(i)"/>
-          <p-button icon="pi pi-trash" severity="danger" [rounded]="true" (click)="removeItemPartNumber(i)"/>
+          <p-button icon="pi pi-pencil" [pTooltip]="'Update item'" [tooltipPosition]="'top'" severity="secondary" [rounded]="true" (click)="showPartNumberBox(i)"/>
+          <p-button icon="pi pi-trash" [pTooltip]="'Delete item'" [tooltipPosition]="'top'" severity="danger" [rounded]="true" (click)="removeItemPartNumber(i)"/>
+          <p-button icon="pi pi-exclamation-triangle" [pTooltip]="'Dupicated'" [tooltipPosition]="'top'" severity="warning" [rounded]="true" *ngIf="isDuplicated(i)"/>
         </div>
       </div>
     </div>

@@ -2,3 +2,10 @@
 ::ng-deep p-card .p-card-content {
   padding: 0;
 }
+
+.close {
+  position: absolute;
+  right: 6px;
+  top: 23px;
+  cursor: pointer;
+}

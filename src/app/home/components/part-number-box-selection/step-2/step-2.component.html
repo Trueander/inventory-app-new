@@ -2,7 +2,7 @@
   <div class="d-flex flex-column gap-5 pb-10">
     <h3 class="mt-0 mb-0">Generation:</h3>
     <div class="container-type pb-5">
-      @for (item of getGenerations(); track $index) {
+      @for (item of generations$ | async; track $index) {
         <div class="container-type-item"
              [class.selected]="generationFC.value === item"
              (click)="selectGeneration(item)">

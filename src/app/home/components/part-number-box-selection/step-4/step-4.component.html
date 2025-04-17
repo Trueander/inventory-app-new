@@ -41,6 +41,6 @@
   </div>
   <div class="d-flex flex-column gap-5 pt-10">
     <label for="flipper">Use flippers #:</label>
-    <input type="text" style="text-align:center;" pInputText [(ngModel)]="flipperValue" id="flipper" readonly/>
+    <input type="text" style="text-align:center;" pInputText [value]="form.get('usedFlipper')?.value" id="flipper" readonly/>
   </div>
 </div>

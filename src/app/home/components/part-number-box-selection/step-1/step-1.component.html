@@ -17,7 +17,7 @@
   <div class="d-flex flex-column gap-5 pb-10">
     <h3 class="mt-0 mb-0">Type:</h3>
     <div class="container-type">
-      @for (item of getTypes(); track $index) {
+      @for (item of types$ | async; track $index) {
         <div class="container-type-item"
              [class.selected]="typeFC.value === item"
              (click)="selecteType(item)">
@@ -32,7 +32,7 @@
   <div class="d-flex flex-column gap-5">
     <h3 class="mt-0 mb-0">Manufacturer:</h3>
     <div class="container-type">
-      @for (item of getManufacturers(); track $index) {
+      @for (item of manufacturers$ | async; track $index) {
         <div class="container-type-item"
              [class.selected]="manufacturerFC.value === item"
              (click)="selecteManufacturer(item)">
